@@ -47,7 +47,7 @@
             playerWins = 0;
             computerWins = 0;
             for (let i = 0; i<numRounds; i++) {
-                result = playRound(playerSelection, computerSelection)
+                result = playRound(playerSelection, getComputerChoice())
                 if (result === "tie") {
                     numTies += 1
                 } else if (result === "player wins") {
@@ -61,7 +61,7 @@
         }
         
         const playerSelection = "paper";
-        const computerSelection = getComputerChoice();
+        //const computerSelection = getComputerChoice();
         
     </script>
 </body>
