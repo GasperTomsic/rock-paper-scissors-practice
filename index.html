@@ -47,6 +47,7 @@
             playerWins = 0;
             computerWins = 0;
             for (let i = 0; i<numRounds; i++) {
+                let playerSelection = prompt("Please enter rock, paper or scissors");
                 result = playRound(playerSelection, getComputerChoice())
                 if (result === "tie") {
                     numTies += 1
@@ -60,8 +61,8 @@
             console.log("Player won " + playerWins + " time/s")
         }
         
-        const playerSelection = "paper";
-        //const computerSelection = getComputerChoice();
+        // const playerSelection = "paper";
+        // const computerSelection = getComputerChoice();
         
     </script>
 </body>
