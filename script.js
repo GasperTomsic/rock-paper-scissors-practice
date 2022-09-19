@@ -1,5 +1,8 @@
+// Game Logic
+
 let playerWins = 0
 let computerWins = 0
+let roundWinner = ""
 
 const btns = document.querySelectorAll(".playButton");
 btns.forEach((button) => {
@@ -24,9 +27,7 @@ function getComputerChoice() {
     }
 }
 function playRound(playerSelection, computerSelection){
-    // Logic for tie
-    resultDiv = document.querySelector("#gameResult");
-
+    
     if (playerWins >= 5) {
         alert("Player won.")
     } else if (computerWins >= 5) {
@@ -34,29 +35,29 @@ function playRound(playerSelection, computerSelection){
     } else {
         // You can play until either computer or player wins
         if (playerSelection === computerSelection) {
-            resultDiv.textContent = "Tie";
-            return "tie this round";                
+            roundWinner = "tie"                
         // Logic for player victory
         } else if ((playerSelection === "paper" && computerSelection === "rock") ||
                 (playerSelection === "rock" && computerSelection === "scissors") ||
                 (playerSelection === "scissors" && computerSelection === "paper")) {
-            resultDiv.textContent = "Player wins!";
+            
+            roundWinner = "player"
             playerWins += 1
             let scorePlayerUpdateString = "Player wins: " + playerWins
             document.getElementById('playerScore').innerHTML = scorePlayerUpdateString;
-            return "player wins this round";
         // Logic for computer victory
         } else if ((playerSelection === "paper" && computerSelection === "scissors") ||
                 (playerSelection === "rock" && computerSelection === "paper") || 
                 (playerSelection === "scissors" && computerSelection === "rock")) {
-            resultDiv.textContent = "Computer wins";
+            roundWinner = "computer"
             computerWins += 1
             let scoreComputerUpdateString = "Computer wins: " + computerWins
             document.getElementById('computerScore').innerHTML = scoreComputerUpdateString;
-            return "computer wins this round";
         }
+        
     }
     // Change scoreboard
+    updateScoreMessage(roundWinner, playerSelection, computerSelection)
 
 }
 
@@ -72,26 +73,19 @@ function resetGameState() {
 }
 const resetButton = document.querySelector("#resetButton");
 resetButton.addEventListener("click", resetGameState);
-/*
-function game(numRounds = 5){
-    numTies = 0;
-    playerWins = 0;
-    computerWins = 0;
-    for (let i = 0; i<numRounds; i++) {
-        let playerSelection = prompt("Please enter rock, paper or scissors");
-        result = playRound(playerSelection, getComputerChoice())
-        if (result === "tie") {
-            numTies += 1
-        } else if (result === "player wins") {
-            playerWins += 1
-        } else if (result === "computer wins") {
-            computerWins += 1
-        }
-        console.log(result)
-    }
-    console.log("Player won " + playerWins + " time/s")
-}
-*/
 
-// const playerSelection = "paper";
-// const computerSelection = getComputerChoice();
+// UI Logic
+
+const scoreMessage = document.getElementById('scoreMessage')
+
+function updateScoreMessage(winner, playerSelection, computerSelection) {
+    if (winner === "player") {
+        scoreMessage.textContent = playerSelection + " beats " + computerSelection
+        return
+    } else if (winner === "computer") {
+        scoreMessage.textContent = playerSelection + " beats " + computerSelection
+        return 
+    } else {
+        scoreMessage.textContent = playerSelection + " ties with " + computerSelection
+    }
+}
