@@ -89,9 +89,17 @@ const rockBtn = document.getElementById('rockBtn')
 const paperBtn = document.getElementById('paperBtn')
 const scissorsBtn = document.getElementById('scissorsBtn')
 
+const endgameModal = document.getElementById('endgameModal')
+const endgameMsg = document.getElementById('endgameMsg')
+const overlay = document.getElementById('overlay')
+const restartBtn = document.getElementById('restartBtn')
+
 rockBtn.addEventListener('click', () => handleClick('rock'))
 paperBtn.addEventListener('click', () => handleClick('paper'))
 scissorsBtn.addEventListener('click', () => handleClick('scissors'))
+
+restartBtn.addEventListener('click', resetGameState)
+overlay.addEventListener('click', closeEndgameModal)
 
 
 function handleClick(playerSelection) {
@@ -100,22 +108,25 @@ function handleClick(playerSelection) {
     // the score. 
     // This forcefully stops player from playing after win/loss
     if (isGameOver()) { 
-        if (playerWins >= 5) {
-            alert("Player won.")
-        } else if (computerWins >= 5) {
-            alert("Computer won.")
-        }
+        openEndGameModal()
+        return
+        //if (playerWins >= 5) {
+         //   alert("Player won.")
+        //} else if (computerWins >= 5) {
+         //   alert("Computer won.")
+        //}
     } 
     const computerChoice =  getComputerChoice();
     playRound(playerSelection, computerChoice);
     updateScore();
     // This will trigger when you win for the first time
     if (isGameOver()) { 
-        if (playerWins >= 5) {
-            alert("Player won.")
-        } else if (computerWins >= 5) {
-            alert("Computer won.")
-        }
+        openEndGameModal()
+        //if (playerWins >= 5) {
+        //    alert("Player won.")
+        //} else if (computerWins >= 5) {
+        //    alert("Computer won.")
+        //}
     }
 }
 function updateScore() {
@@ -141,4 +152,13 @@ function updateScoreMessage(winner, playerSelection, computerSelection) {
     } else {
         scoreMessage.textContent = playerSelection + " ties with " + computerSelection
     }
+}
+
+function openEndGameModal() {
+    endgameModal.classList.add("active");
+    overlay.classList.add("active")
+}
+function closeEndgameModal() {
+    endgameModal.classList.remove('active')
+    overlay.classList.remove('active')
 }
