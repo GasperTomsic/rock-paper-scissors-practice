@@ -74,6 +74,10 @@ function resetGameState() {
 const resetButton = document.querySelector("#resetButton");
 resetButton.addEventListener("click", resetGameState);
 
+
+function isGameOver() {
+    return playerWins === 5 || computerWins === 5
+}
 // UI Logic
 
 const scoreInfo = document.getElementById('scoreInfo');
@@ -91,11 +95,29 @@ scissorsBtn.addEventListener('click', () => handleClick('scissors'))
 
 
 function handleClick(playerSelection) {
+
+    // This way of stopping the game is not nice, because pop alert will stop the browser from updating 
+    // the score. 
+    // This forcefully stops player from playing after win/loss
+    if (isGameOver()) { 
+        if (playerWins >= 5) {
+            alert("Player won.")
+        } else if (computerWins >= 5) {
+            alert("Computer won.")
+        }
+    } 
     const computerChoice =  getComputerChoice();
     playRound(playerSelection, computerChoice);
     updateScore();
+    // This will trigger when you win for the first time
+    if (isGameOver()) { 
+        if (playerWins >= 5) {
+            alert("Player won.")
+        } else if (computerWins >= 5) {
+            alert("Computer won.")
+        }
+    }
 }
-
 function updateScore() {
     if (roundWinner === 'tie') {
         scoreInfo.textContent = "It's a tie!"
