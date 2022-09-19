@@ -4,7 +4,7 @@ let playerWins = 0
 let computerWins = 0
 let roundWinner = ""
 
-const btns = document.querySelectorAll(".playButton");
+// const btns = document.querySelectorAll(".playButton");
 /*
 btns.forEach((button) => {
     button.addEventListener("click", () => {
