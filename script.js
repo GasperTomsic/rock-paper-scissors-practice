@@ -5,13 +5,17 @@ let computerWins = 0
 let roundWinner = ""
 
 const btns = document.querySelectorAll(".playButton");
+/*
 btns.forEach((button) => {
     button.addEventListener("click", () => {
         console.log(button.textContent);
         computerChoice = getComputerChoice()
         playRound(button.textContent, computerChoice)
+        updateScore()
     })
 })
+*/
+
 function getComputerChoice() {
     // Function returns random string from a choice of ("paper", "rock", "scissors")
     
@@ -35,24 +39,20 @@ function playRound(playerSelection, computerSelection){
     } else {
         // You can play until either computer or player wins
         if (playerSelection === computerSelection) {
-            roundWinner = "tie"                
+            roundWinner = "tie";         
         // Logic for player victory
         } else if ((playerSelection === "paper" && computerSelection === "rock") ||
                 (playerSelection === "rock" && computerSelection === "scissors") ||
                 (playerSelection === "scissors" && computerSelection === "paper")) {
-            
-            roundWinner = "player"
-            playerWins += 1
-            let scorePlayerUpdateString = "Player wins: " + playerWins
-            document.getElementById('playerScore').innerHTML = scorePlayerUpdateString;
+                    
+            roundWinner = "player";
+            playerWins += 1;
         // Logic for computer victory
         } else if ((playerSelection === "paper" && computerSelection === "scissors") ||
                 (playerSelection === "rock" && computerSelection === "paper") || 
                 (playerSelection === "scissors" && computerSelection === "rock")) {
-            roundWinner = "computer"
-            computerWins += 1
-            let scoreComputerUpdateString = "Computer wins: " + computerWins
-            document.getElementById('computerScore').innerHTML = scoreComputerUpdateString;
+            roundWinner = "computer";
+            computerWins += 1;
         }
         
     }
@@ -64,19 +64,50 @@ function playRound(playerSelection, computerSelection){
 function resetGameState() {
     playerWins = 0
     computerWins = 0
-
-    let scorePlayerUpdateString = "Player wins: " + playerWins
-    document.getElementById('playerScore').innerHTML = scorePlayerUpdateString;
-
-    let scoreComputerUpdateString = "Computer wins: " + computerWins
-    document.getElementById('computerScore').innerHTML = scoreComputerUpdateString;
+    
+    scoreInfo.textContent = "Choose your weapon!"
+    scoreMessage.textContent = "First to score 5 points wins the game."
+    
+    playerScoreDiv.textContent = "Player: " + playerWins
+    computerScoreDiv.textContent = "Computer: " + computerWins
 }
 const resetButton = document.querySelector("#resetButton");
 resetButton.addEventListener("click", resetGameState);
 
 // UI Logic
 
-const scoreMessage = document.getElementById('scoreMessage')
+const scoreInfo = document.getElementById('scoreInfo');
+const scoreMessage = document.getElementById('scoreMessage');
+const playerScoreDiv = document.getElementById("playerScore");
+const computerScoreDiv = document.getElementById("computerScore");
+
+const rockBtn = document.getElementById('rockBtn')
+const paperBtn = document.getElementById('paperBtn')
+const scissorsBtn = document.getElementById('scissorsBtn')
+
+rockBtn.addEventListener('click', () => handleClick('rock'))
+paperBtn.addEventListener('click', () => handleClick('paper'))
+scissorsBtn.addEventListener('click', () => handleClick('scissors'))
+
+
+function handleClick(playerSelection) {
+    const computerChoice =  getComputerChoice();
+    playRound(playerSelection, computerChoice);
+    updateScore();
+}
+
+function updateScore() {
+    if (roundWinner === 'tie') {
+        scoreInfo.textContent = "It's a tie!"
+    } else if (roundWinner === 'player') {
+        scoreInfo.textContent = 'You won!'
+    } else if (roundWinner === 'computer') {
+        scoreInfo.textContent = 'You lost!'
+    }
+
+    playerScoreDiv.textContent = "Player: " + playerWins
+    computerScoreDiv.textContent = "Computer: " + computerWins
+}
 
 function updateScoreMessage(winner, playerSelection, computerSelection) {
     if (winner === "player") {
